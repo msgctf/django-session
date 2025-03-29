@@ -1,4 +1,5 @@
 import os
+import re
 import string
 from django.conf import settings
 from django.shortcuts import render
@@ -38,7 +39,9 @@ def index(request):
     if not isinstance(path, str) or path == '':
         return render(request, 'index.html', {'msg': 'input the path!'})
 
-
+    if re.fullmatch(r'/flag', path, re.IGNORECASE):
+        return render(request, 'index.html', {'msg': 'invalid path!'})
+    
     if any(ch not in ALLOWED_CHARACTERS for ch in path):
         return render(request, 'index.html', {'msg': 'invalid path!'})
 
